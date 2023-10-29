@@ -23,11 +23,17 @@
   overflow-y: auto;
 }
 
-.scrollable-section-mesg {
+.scrollable-section-item {
   position: relative;
-  height: calc(100vh - 130px);
+  height: calc(100vh - 300px);
   /* Adjust the height based on the height of non-scrollable sections */
   overflow-y: auto;
 }
 
+.scrollable-section-checkout-item {
+  position: relative;
+  height: calc(100vh - 410px);
+  /* Adjust the height based on the height of non-scrollable sections */
+  overflow-y: auto;
+}
 }
