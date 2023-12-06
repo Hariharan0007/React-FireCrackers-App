@@ -3,7 +3,7 @@ const { sequelize } = require('../db'); // Import your Sequelize instance
 
 const Cracker = sequelize.define('Cracker', {
     cracker_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         primaryKey: true,
     },
     cracker_name: {

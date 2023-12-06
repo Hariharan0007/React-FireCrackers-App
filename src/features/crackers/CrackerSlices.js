@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { v4 as uid } from "uuid";
+
 
 const initialState = {
     crackersList : [],
@@ -11,39 +11,38 @@ export const crackerSlice = createSlice({
     initialState,
     reducers:{
         addCrackerCheckOut:(state,actions) => {
-            const { id, name, price, add, remove, drop } = actions.payload;
-            const existingCracker = state.crackersList.find(items => items.name === name);
+            const { cracker_id,cracker_name, price_per_box, add, remove, drop } = actions.payload;
+            const existingCracker = state.crackersList.find(items => items.id === cracker_id);
             if(existingCracker){
                 if(add){
                     existingCracker.quantity += 1;
-                    existingCracker.price += price;
-                    state.totalPrice += price;
-                    console.log(state.totalPrice);
+                    existingCracker.price += price_per_box;
+                    state.totalPrice += price_per_box;
                 }
                 if(remove){
                     existingCracker.quantity -= 1;
-                    existingCracker.price -= price;
-                    state.totalPrice -= price;
+                    existingCracker.price -= price_per_box;
+                    state.totalPrice -= price_per_box;
                 }
                 if(drop){
                     state.totalPrice -= existingCracker.price;
-                    state.crackersList = state.crackersList.filter(cracker => cracker.name !== name)
+                    state.crackersList = state.crackersList.filter(cracker => cracker.id !== cracker_id)
                 }
             }
             else{
                 const newCracker = {
-                    id:uid(),
-                    name : name,
-                    price : price,
+                    id : cracker_id,
+                    name : cracker_name,
+                    price : price_per_box,
                     quantity : 1,
                 }
                 state.crackersList = [...state.crackersList,newCracker]
-                state.totalPrice += price
+                state.totalPrice += price_per_box
                 console.log(state.totalPrice);
             }
         },
         checkOut:(state,actions) => {
-
+            state.crackersList = []
         }
     }
 })

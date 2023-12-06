@@ -1,20 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import instance from "../api/api"
 
 const FCList = () => {
 
+  const [crackers, setCrackers] = useState([]);
 
-  var crackersList = []
+  const getCrackers = () => {
+    return instance.get('/crackers/') // Return the promise
+      .then(response => response.data)
+      .catch(error => {
+        console.error('Error:', error);
+        return []; // Return an empty array in case of an error
+      });
+  };
 
-  for(let i=1;i<=100;i++){
-    crackersList = [...crackersList,{'sno':i,
-                                      'iname':'Bomb ' + i,
-                                      'total':100,
-                                      'price':100,
-                                      'cq':40,
-                                      'so':60}]
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("Fetching crackers...");
+      try {
+        const crackersData = await getCrackers();
+        setCrackers(crackersData);
+        console.log("Crackers data:", crackersData);
+      } catch (error) {
+        console.error('Error fetching crackers:', error);
+      }
+    };
 
-  console.log(crackersList);
+    fetchData();
+  }, []);
+
 
   return (
     <div>
@@ -33,28 +47,28 @@ const FCList = () => {
               </tr>
             </thead>
             <tbody>
-              {crackersList.map((list) => (
+              {crackers.map((list,index) => (
                 <tr
-                  key={list.sno}
+                  key={list.cracker_id}
                   className="border hover:bg-gray-400 border-black text-xl hover:cursor-pointer hover:font-bold h-20"
                 >
                   <td>
-                    <span className="flex justify-center">{list.sno}</span>
+                    <span className="flex justify-center">{index+1}</span>
                   </td>
                   <td>
-                    <span className="flex justify-center">{list.iname}</span>
+                    <span className="flex justify-center">{list.cracker_name}</span>
                   </td>
                   <td>
-                    <span className="flex justify-center">{list.total}</span>
+                    <span className="flex justify-center">{list.quantity}</span>
                   </td>
                   <td>
-                    <span className="flex justify-center">{list.price}</span>
+                    <span className="flex justify-center">{list.price_per_box}</span>
                   </td>
                   <td>
-                    <span className="flex justify-center">{list.cq}</span>
+                    <span className="flex justify-center">{list.available_quantity}</span>
                   </td>
                   <td>
-                    <span className="flex justify-center">{list.so}</span>
+                    <span className="flex justify-center">{list.quantity - list.available_quantity}</span>
                   </td>
                 </tr>
               ))}

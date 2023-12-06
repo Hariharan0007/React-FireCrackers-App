@@ -25,12 +25,16 @@ const bodyParser = require('body-parser');
 const { sequelize, connectToDb } = require('./db');
 const crackerRoutes = require('./routes/crackerRoutes');
 const saleRoutes = require('./routes/saleRoutes');
+const cors = require('cors')
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 (async () => {
     await connectToDb();
+
+    // sequelize.sync();
 
     // Set up routes
     app.use('/crackers', crackerRoutes);

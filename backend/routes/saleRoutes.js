@@ -6,7 +6,7 @@ const Sale = require('../models/sale');
 
 // Create a new sale
 router.post('/', async (req, res) => {
-    // Create logic here
+    console.log(res.json());
 });
 
 // Retrieve all sales
